@@ -16,6 +16,11 @@ func TestUnpack(t *testing.T) {
 		{input: "abccd", expected: "abccd"},
 		{input: "", expected: ""},
 		{input: "aaa0b", expected: "aab"},
+		{input: "d\\n5abc", expected: "d\\n\\n\\n\\n\\nabc"},
+		{input: "3abc", expected: ErrInvalidString.Error()},
+		{input: "45", expected: ErrInvalidString.Error()},
+		{input: "a45", expected: ErrInvalidString.Error()},
+		{input: "aaa10b", expected: ErrInvalidString.Error()},
 		// uncomment if task with asterisk completed
 		// {input: `qwe\4\5`, expected: `qwe45`},
 		// {input: `qwe\45`, expected: `qwe44444`},
@@ -27,8 +32,12 @@ func TestUnpack(t *testing.T) {
 		tc := tc
 		t.Run(tc.input, func(t *testing.T) {
 			result, err := Unpack(tc.input)
-			require.NoError(t, err)
-			require.Equal(t, tc.expected, result)
+			if tc.expected == ErrInvalidString.Error() {
+				require.EqualError(t, err, ErrInvalidString.Error())
+			} else {
+				require.NoError(t, err)
+				require.Equal(t, tc.expected, result)
+			}
 		})
 	}
 }
