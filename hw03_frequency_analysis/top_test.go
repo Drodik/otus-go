@@ -156,6 +156,7 @@ var text2 = `
 	Когда б на то не божья воля,
 	Не отдали б Москвы!
 `
+var text3 = `Текст для проверки менее 10 слов`
 
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
@@ -208,5 +209,21 @@ func TestTop10(t *testing.T) {
 			"как",  // 4
 		}
 		require.Equal(t, expected, Top10(text2))
+	})
+
+	t.Run("positive test three", func(t *testing.T) {
+		expected := []string{
+			"10",       // 1
+			"Текст",    // 1
+			"для",      // 1
+			"менее",    // 1
+			"проверки", // 1
+			"слов",     // 1
+			"",         //
+			"",         //
+			"",         //
+			"",         //
+		}
+		require.Equal(t, expected, Top10(text3))
 	})
 }

@@ -14,7 +14,7 @@ func Top10(inputString string) []string {
 
 	elements := strings.Fields(inputString)
 
-	result := make([]string, 0, len(elements))
+	result := make([]string, 0)
 
 	for _, item := range elements {
 		if frequencyMap[item] == 0 {
@@ -31,6 +31,12 @@ func Top10(inputString string) []string {
 
 		return frequencyMap[result[i]] > frequencyMap[result[j]]
 	})
+
+	if len(result) < 10 {
+		for i := len(result); i <= 10; i++ {
+			result = append(result, "")
+		}
+	}
 
 	return result[:10]
 }
